@@ -17,11 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/projects', 'App\Http\Controllers\ProjectController@index');
-Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index']);
-Route::get('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'show']);
-Route::post('/projects', [\App\Http\Controllers\ProjectController::class, 'store'])->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    //Route::get('/projects', 'App\Http\Controllers\ProjectController@index');
+    Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index']);
+    Route::get('/projects/create', [\App\Http\Controllers\ProjectController::class, 'create']);
+    Route::get('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'show']);
+    Route::post('/projects', [\App\Http\Controllers\ProjectController::class, 'store']);
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

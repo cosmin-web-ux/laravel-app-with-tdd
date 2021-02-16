@@ -16,10 +16,9 @@
                 <div class="mb-5">
                     <h2 class="text-muted mb-2">Tasks</h2>
 
-                    <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">Lorem ipsum</div>
-                    <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">Lorem ipsum</div>
-                    <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">Lorem ipsum</div>
-                    <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">Lorem ipsum</div>
+                    @foreach($project->tasks as $task)
+                        <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">{{ $task->body }}</div>
+                    @endforeach
                 </div>
                 <div>
                     <h2 class="text-muted mb-2">General Notes</h2>

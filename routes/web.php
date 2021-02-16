@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectTasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +21,15 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    //Route::get('/projects', 'App\Http\Controllers\ProjectController@index');
-    Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index']);
-    Route::get('/projects/create', [\App\Http\Controllers\ProjectController::class, 'create']);
-    Route::get('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'show']);
-    Route::post('/projects', [\App\Http\Controllers\ProjectController::class, 'store']);
+    //Route::get('/projects', 'ProjectController@index');
+    Route::get('/projects', [ProjectController::class, 'index']);
+    Route::get('/projects/create', [ProjectController::class, 'create']);
+    Route::get('/projects/{project}', [ProjectController::class, 'show']);
+    Route::post('/projects', [ProjectController::class, 'store']);
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'store']);
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
 Auth::routes();

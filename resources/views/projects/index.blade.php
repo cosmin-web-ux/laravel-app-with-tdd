@@ -1,22 +1,26 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Birdboard</h1>
+@extends('layouts.app')
 
-    <ul>
+@section('content')
+    <header class="d-flex align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <h2 class="text-muted">My Projects</h2>
+            <a href="/projects/create" class="btn btn-info text-white">New Project</a>
+        </div>
+    </header>
+
+    <main class="row">
         @forelse($projects as $project)
-            <li>
-                <a href="{{ $project->path() }}">{{ $project->title }}</a>
-            </li>
+            <div class="col-md-4 py-3">
+                <div class="bg-white px-3 py-4 h-100 rounded shadow">
+                    <h3 class="mb-3 title">
+                        <a href="{{ $project->path() }}" class="text-dark">{{ $project->title }}</a>
+                    </h3>
+
+                    <div class="text-muted">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
+                </div>
+            </div>
         @empty
-            <li>No projects yet.</li>
+            <div>No projects yet.</div>
         @endforelse
-    </ul>
-</body>
-</html>
+    </main>
+@endsection

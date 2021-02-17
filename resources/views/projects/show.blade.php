@@ -17,8 +17,24 @@
                     <h2 class="text-muted mb-2">Tasks</h2>
 
                     @foreach($project->tasks as $task)
-                        <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">{{ $task->body }}</div>
+                        <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">
+                            <form method="POST" action="{{ $task->path() }}">
+                                @method('PATCH')
+                                @csrf
+
+                                <div class="d-flex align-items-center">
+                                    <input type="text" name="body" value="{{ $task->body }}" class="w-100 {{ $task->completed ? 'text-muted' : '' }}">
+                                    <input type="checkbox" name="completed" onchange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
+                                </div>
+                            </form>
+                        </div>
                     @endforeach
+                    <div class="bg-white px-3 py-4 rounded shadow px-3 mb-2">
+                        <form action="{{ $project->path() . '/tasks' }}" method="POST">
+                            @csrf
+                            <input placeholder="Add a new task..." class="w-100" name="body">
+                        </form>
+                    </div>
                 </div>
                 <div>
                     <h2 class="text-muted mb-2">General Notes</h2>

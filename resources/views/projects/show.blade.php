@@ -39,7 +39,19 @@
                 <div>
                     <h2 class="text-muted mb-2">General Notes</h2>
 
-                    <textarea class="bg-white px-3 py-4 rounded shadow w-100" style="height: 200px">Lorem ipsum</textarea>
+                    <form action="{{ $project->path() }}" method="POST">
+                        @method('PATCH')
+                        @csrf
+
+                        <textarea
+                            name="notes"
+                            class="bg-white px-3 py-4 mb-3 rounded shadow w-100"
+                            style="height: 200px"
+                            placeholder="Anything special that you want to make a note of?"
+                        >{{ $project->notes }}</textarea>
+
+                        <button type="submit" class="btn btn-info text-white">Save</button>
+                    </form>
                 </div>
             </div>
 

@@ -51,6 +51,13 @@
                         >{{ $project->notes }}</textarea>
 
                         <button type="submit" class="btn btn-info text-white">Save</button>
+                        @if ($errors->any())
+                            <div class="mt-3">
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-danger small">{{ $error }}</li>
+                                @endforeach
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>

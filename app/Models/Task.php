@@ -21,14 +21,18 @@ class Task extends Model
     {
         parent::boot();
 
-        static::created(function ($task) {
-            $task->project->recordActivity('created_task');
-        });
+//        static::created(function ($task) {
+//            $task->project->recordActivity('created_task');
+//        });
 
 //        static::updated(function ($task) {
 //            if (! $task->completed) return;
 //
 //            $task->project->recordActivity('completed_task');
+//        });
+
+//        static::deleted(function ($task) {
+//            $task->project->recordActivity('deleted_task');
 //        });
     }
 
@@ -37,6 +41,13 @@ class Task extends Model
         $this->update(['completed' => true]);
 
         $this->project->recordActivity('completed_task');
+    }
+
+    public function incomplete()
+    {
+        $this->update(['completed' => false]);
+
+        $this->project->recordActivity('incompleted_task');
     }
 
     public function project()

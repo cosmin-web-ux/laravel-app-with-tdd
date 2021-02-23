@@ -70,6 +70,7 @@
 
                     <div class="text-muted">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
                 </div>
+                @include ('projects.activity.card')
             </div>
         </div>
     </main>

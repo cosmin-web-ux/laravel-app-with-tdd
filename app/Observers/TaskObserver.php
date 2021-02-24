@@ -17,6 +17,12 @@ class TaskObserver
         $task->recordActivity('created_task');
     }
 
+    // method was moved to trait and made generic
+//    public function updating(Task $task)
+//    {
+//        $task->old = $task->getOriginal();
+//    }
+
     /**
      * Handle the Task "updated" event.
      *

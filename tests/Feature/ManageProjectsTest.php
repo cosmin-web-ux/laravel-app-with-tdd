@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 
 class ManageProjectsTest extends TestCase
@@ -52,9 +52,23 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
+    public function a_user_can_see_all_projects_they_have_been_invited_to_on_their_dashboard()
+    {
+//        $user = $this->signIn();
+//
+//        $project = app(ProjectFactory::class)->create();
+//
+//        $project->invite($user);
+
+        $project = tap(ProjectFactory::create())->invite($this->signIn());
+
+        $this->get('/projects')->assertSee($project->title);
+    }
+
+    /** @test */
     public function unauthorized_users_cannot_delete_projects()
     {
-        $project = app(ProjectFactory::class)->create();
+        $project = ProjectFactory::create();
 
         $this->delete($project->path())
             ->assertRedirect('/login');
@@ -68,7 +82,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_delete_a_project()
     {
-        $project = app(ProjectFactory::class)->create();
+        $project = ProjectFactory::create();
 
         $this->actingAs($project->owner);
         $this->delete($project->path())
@@ -84,7 +98,7 @@ class ManageProjectsTest extends TestCase
 
 //        $project = Project::factory()->create(['owner_id' => auth()->id()]);
 
-        $project = app(ProjectFactory::class)->ownedBy($this->signIn())->create();
+        $project = ProjectFactory::ownedBy($this->signIn())->create();
 
         $this->patch($project->path(), $attributes = ['title' => 'Changed', 'description' => 'Changed', 'notes' => 'Changed'])
             ->assertRedirect($project->path());
@@ -97,7 +111,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_projects_general_notes()
     {
-        $project = app(ProjectFactory::class)->ownedBy($this->signIn())->create();
+        $project = ProjectFactory::ownedBy($this->signIn())->create();
 
         $this->patch($project->path(), $attributes = ['notes' => 'Changed']);
 
@@ -111,7 +125,7 @@ class ManageProjectsTest extends TestCase
 //
 //        $project = Project::factory()->create(['owner_id' => auth()->id()]);
 
-        $project = app(ProjectFactory::class)->ownedBy($this->signIn())->create();
+        $project = ProjectFactory::ownedBy($this->signIn())->create();
 
         $this->get($project->path())
             ->assertSee($project->title)

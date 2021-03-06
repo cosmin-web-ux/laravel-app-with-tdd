@@ -69,29 +69,36 @@
                         >{{ $project->notes }}</textarea>
 
                         <button type="submit" class="btn btn-info text-white">Save</button>
-                        @if ($errors->any())
-                            <div class="mt-3">
-                                @foreach ($errors->all() as $error)
-                                    <li class="text-danger small">{{ $error }}</li>
-                                @endforeach
-                            </div>
-                        @endif
                     </form>
+                    @include('errors')
                 </div>
             </div>
 
             <div class="col-md-3 py-3">
                 <div class="bg-white px-3 py-4 mt-4 rounded shadow">
-                    <h3 class="mb-3 title">
-                        <a href="{{ $project->path() }}" class="text-dark">{{ $project->title }}</a>
-                    </h3>
+                    <div class="d-flex flex-column" style="height: 200px">
+                        <h3 class="mb-3 title">
+                            <a href="{{ $project->path() }}" class="text-dark">{{ $project->title }}</a>
+                        </h3>
 
-                    <div class="text-muted">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
+                        <div class="flex-shrink-0 flex-grow-1 text-muted">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
+
+                        <div>
+                            <form method="POST" action="{{ $project->path() }}" class="text-right">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn bg-transparent"><small>Delete</small></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 @include ('projects.activity.card')
+
+                @can ('manage', $project)
+                    @include ('projects.invite')
+                @endcan
             </div>
         </div>
     </main>
-
 
 @endsection

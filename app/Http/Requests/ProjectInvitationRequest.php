@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,6 +26,7 @@ class ProjectInvitationRequest extends FormRequest
     public function rules()
     {
         return [
+//            'email' => ['required','exists:users,email']
             'email' => ['required', Rule::exists('users', 'email')]
         ];
     }

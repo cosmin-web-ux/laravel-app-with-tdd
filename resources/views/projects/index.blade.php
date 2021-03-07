@@ -17,6 +17,15 @@
                     </h3>
 
                     <div class="text-muted mb-4">{{ \Illuminate\Support\Str::limit($project->description, 100) }}</div>
+                    @can ('manage', $project)
+                        <div>
+                            <form method="POST" action="{{ $project->path() }}" class="text-right">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn bg-transparent"><small>Delete</small></button>
+                            </form>
+                        </div>
+                    @endcan
                 </div>
             </div>
         @empty

@@ -4,7 +4,7 @@
     <header class="d-flex align-items-center mb-3">
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2 class="text-muted">My Projects</h2>
-            <a href="/projects/create" class="btn btn-info text-white">New Project</a>
+            <a class="btn btn-info text-white" @click="$modal.show('new-project')">New Project</a>
         </div>
     </header>
 
@@ -32,4 +32,6 @@
             <div>No projects yet.</div>
         @endforelse
     </main>
+
+    <new-project-modal></new-project-modal>
 @endsection

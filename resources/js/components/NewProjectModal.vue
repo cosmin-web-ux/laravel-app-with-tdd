@@ -34,16 +34,16 @@
                             class="form-control d-block w-100 mb-2 p-2 rounded"
                             placeholder="Task 1"
                             v-for="task in form.tasks"
-                            v-model="task.value">
+                            v-model="task.body">
                     </div>
-                    <button class="bg-transparent border-0 d-inline-flex align-items-center pl-0" @click="addTask">
+                    <button type="button" class="bg-transparent border-0 d-inline-flex align-items-center pl-0" @click="addTask">
                         <img src="/images/add.png" width="20px" alt="add-button" class="mr-1">
                         <span>Add New Task Field</span>
                     </button>
                 </div>
             </div>
             <footer class="d-flex justify-content-end">
-                <button class="btn btn-outline-info" @click="$modal.hide('new-project')">Cancel</button>
+                <button type="button" class="btn btn-outline-info" @click="$modal.hide('new-project')">Cancel</button>
                 <button type="submit" class="btn btn-info text-white ml-3">Create Project</button>
             </footer>
         </modal>
@@ -58,7 +58,7 @@
                     title: '',
                     description: '',
                     tasks: [
-                        { value: '' },
+                        { body: '' },
                     ]
                 },
                 errors: {}
@@ -66,7 +66,7 @@
         },
         methods: {
             addTask() {
-                this.form.tasks.push({ value: '' });
+                this.form.tasks.push({ body: '' });
             },
             // submit() {
             //     axios.post('/projects', this.form)

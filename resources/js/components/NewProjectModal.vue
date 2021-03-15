@@ -10,20 +10,20 @@
                             type="text"
                             id="title"
                             class="d-block w-100 p-2 rounded shadow-none"
-                            :class="errors.title ? 'form-control is-invalid' : 'form-control'"
+                            :class="form.errors.title ? 'form-control is-invalid' : 'form-control'"
                             v-model="form.title">
-                        <small class="text-danger" v-if="errors.title" v-text="errors.title[0]"></small>
+                        <small class="text-danger" v-if="form.errors.title" v-text="form.errors.title[0]"></small>
                     </div>
                     <div class="mb-2">
                         <label for="title" class="d-block">Description</label>
                         <textarea
                             id="description"
                             class="form-control d-block w-100 py-1 px-2 rounded"
-                            :class="errors.description ? 'form-control is-invalid' : 'form-control'"
+                            :class="form.errors.description ? 'form-control is-invalid' : 'form-control'"
                             rows="7"
                             v-model="form.description">
                         </textarea>
-                        <small class="text-danger" v-if="errors.description" v-text="errors.description[0]"></small>
+                        <small class="text-danger" v-if="form.errors.description" v-text="form.errors.description[0]"></small>
                     </div>
                 </div>
                 <div class="flex-grow-1 ml-2">
@@ -51,17 +51,18 @@
 </template>
 
 <script>
+    import BirdboardForm from './BirdboardForm';
+
     export default {
         data() {
             return {
-                form: {
+                form: new BirdboardForm ({
                     title: '',
                     description: '',
                     tasks: [
                         { body: '' },
                     ]
-                },
-                errors: {}
+                })
             }
         },
         methods: {
@@ -77,12 +78,20 @@
             //             this.errors = error.response.data.errors;
             //         });
             // },
+            // async submit() {
+            //     try {
+            //         location = (await axios.post('/projects', this.form)).data.message;
+            //     } catch (error) {
+            //         this.errors = error.response.data.errors;
+            //     }
+            // },
             async submit() {
-                try {
-                    location = (await axios.post('/projects', this.form)).data.message;
-                } catch (error) {
-                    this.errors = error.response.data.errors;
+                if (! this.form.tasks[0].body) {
+                    delete this.form.originalData.tasks;
                 }
+
+                await this.form.submit('/projects')
+                    .then(response => location = response.data.message);
             }
         }
     }
